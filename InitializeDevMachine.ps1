@@ -3,15 +3,15 @@ try
     # download winget
     # #Requires -RunAsAdministrator
     # #Download Winget
-    # $LatestWingetRelease = Invoke-RestMethod -Uri https://api.github.com/repos/microsoft/winget-cli/releases/latest
-    # $Assets = Invoke-RestMethod -Uri $LatestWingetRelease.assets_url
-    # $AssetDownloadURI = ($Assets | Where-Object {$_.content_type -like "application*"}).browser_download_url
-    # $FileName = ($AssetDownloadURI -split '/')[-1]
-    # $UserDownloadFolder = $env:USERPROFILE + "\Downloads\" + $FileName
-    # Invoke-WebRequest -Uri $AssetDownloadURI -OutFile $UserDownloadFolder
-    # Add-AppxProvisionedPackage -PackagePath $UserDownloadFolder -SkipLicense -Online
-    # $manifest = (Get-AppxPackage Microsoft.VCLibs.140.00.UWPDesktop | Where-Object {$_.Architecture -eq 'X64'} | Sort-object $_.Version -Descending)[0].InstallLocation + '\AppxManifect.xml'
-    # Add-AppPackage -Path $UserDownloadFolder -DependencyPath $manifest
+    Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+		
+    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $releases = Invoke-RestMethod -uri "$($releases_url)"
+    $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith("appxbundle") } | Select-Object -First 1
+
+    Add-AppxPackage -Path $latestRelease.browser_download_url
 
 
 
