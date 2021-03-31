@@ -6,7 +6,10 @@ Execute this script to initialize a new development machine.
 
 Review the content of this script before you run it.
 
-### Winget has to be present on the machine prior to this being executed.
 #### This is a work in progress. Missing key features
-- Automatic installation of Winget (if not present)
 - Validation
+
+
+### Thank you
+
+Thanks to https://github.com/crutkas for the initial WinGet Download script

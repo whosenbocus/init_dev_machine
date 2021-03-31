@@ -3,20 +3,20 @@ try
     # download winget
     # #Requires -RunAsAdministrator
     # #Download Winget
-    # $LatestWingetRelease = Invoke-RestMethod -Uri https://api.github.com/repos/microsoft/winget-cli/releases/latest
-    # $Assets = Invoke-RestMethod -Uri $LatestWingetRelease.assets_url
-    # $AssetDownloadURI = ($Assets | Where-Object {$_.content_type -like "application*"}).browser_download_url
-    # $FileName = ($AssetDownloadURI -split '/')[-1]
-    # $UserDownloadFolder = $env:USERPROFILE + "\Downloads\" + $FileName
-    # Invoke-WebRequest -Uri $AssetDownloadURI -OutFile $UserDownloadFolder
-    # Add-AppxProvisionedPackage -PackagePath $UserDownloadFolder -SkipLicense -Online
-    # $manifest = (Get-AppxPackage Microsoft.VCLibs.140.00.UWPDesktop | Where-Object {$_.Architecture -eq 'X64'} | Sort-object $_.Version -Descending)[0].InstallLocation + '\AppxManifect.xml'
-    # Add-AppPackage -Path $UserDownloadFolder -DependencyPath $manifest
+    Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+		
+    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases"
+    #$releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest" #causing issue related to manifest was higher than supported
+
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $releases = Invoke-RestMethod -uri "$($releases_url)"
+    $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith("appxbundle") } | Select-Object -First 1
+
+    Add-AppxPackage -Path $latestRelease.browser_download_url
 
 
 
 
-  
     winget install Microsoft.dotnet
     winget install Microsoft.Powertoys
     winget install Microsoft.PowerShell
@@ -24,10 +24,12 @@ try
     winget install git
     winget install 'Visual Studio Professional'
     winget install 'Visual Studio Enterprise'
-    winget install 'SQL Server Management Studio'
+    winget install Microsoft.SQLServerManagementStudio
     winget install Postman.Postman
-    winget install Microsoft.VisualStudioCode
+    winget install Microsoft.VisualStudioCode.System-x64
     winget install Microsoft.Teams
+    #chrome
+    #firefox
 }
 catch
 {
