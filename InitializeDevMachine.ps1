@@ -5,7 +5,7 @@ try
     # #Download Winget
     Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
 		
-    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/"
+    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases"
     #$releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest" #causing issue related to manifest was higher than supported
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -17,7 +17,6 @@ try
 
 
 
-  
     winget install Microsoft.dotnet
     winget install Microsoft.Powertoys
     winget install Microsoft.PowerShell
@@ -25,9 +24,9 @@ try
     winget install git
     winget install 'Visual Studio Professional'
     winget install 'Visual Studio Enterprise'
-    winget install 'SQL Server Management Studio'
+    winget install Microsoft.SQLServerManagementStudio
     winget install Postman.Postman
-    winget install Microsoft.VisualStudioCode
+    winget install Microsoft.VisualStudioCode.System-x64
     winget install Microsoft.Teams
 }
 catch
