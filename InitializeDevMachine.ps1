@@ -28,6 +28,8 @@ try
     winget install Postman.Postman
     winget install Microsoft.VisualStudioCode.System-x64
     winget install Microsoft.Teams
+    #chrome
+    #firefox
 }
 catch
 {
