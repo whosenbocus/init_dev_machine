@@ -5,7 +5,8 @@ try
     # #Download Winget
     Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
 		
-    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+    $releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/"
+    #$releases_url = "https://api.github.com/repos/microsoft/winget-cli/releases/latest" #causing issue related to manifest was higher than supported
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $releases = Invoke-RestMethod -uri "$($releases_url)"
